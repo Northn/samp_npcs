@@ -1,0 +1,15 @@
+[submodule "client/third-party/kthook"]
+	path = client/third-party/kthook
+	url = https://github.com/kin4stat/kthook/
+[submodule "server/third-party/omp-sdk"]
+	path = server/third-party/omp-sdk
+	url = https://github.com/openmultiplayer/open.mp-sdk
+[submodule "server/third-party/pawn-natives"]
+	path = server/third-party/pawn-natives
+	url = https://github.com/openmultiplayer/pawn-natives/
+[submodule "server/third-party/omp-network"]
+	path = server/third-party/omp-network
+	url = https://github.com/openmultiplayer/open.mp-network/
+[submodule "server/third-party/amx"]
+	path = server/third-party/amx
+	url = https://github.com/openmultiplayer/compiler/
