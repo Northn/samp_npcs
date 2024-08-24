@@ -37,14 +37,16 @@ struct NpcTaskStandStill final : NpcTask<0> {
 
 struct NpcTaskAttackPlayer final : NpcTask<1> {
   const IPlayer* target = nullptr;
+  bool aggressive = false;
 
   void write(NetworkBitStream& bs) const override {
     bs.writeUINT16(target->getID());
+    bs.writeUINT8(aggressive ? 1 : 0);
   }
 
   bool operator==(const NpcTask& other) const override {
     const auto other_ = dynamic_cast<const NpcTaskAttackPlayer*>(&other);
-    return other_ != nullptr && target == other_->target;
+    return other_ != nullptr && target == other_->target && aggressive == other_->aggressive;
   }
 };
 

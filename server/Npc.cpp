@@ -180,9 +180,10 @@ void Npc::goToPoint(const Vector3 &destination, NpcMoveMode mode) {
   broadcastActiveTask();
 }
 
-void Npc::attackPlayer(const IPlayer &player) {
+void Npc::attackPlayer(const IPlayer &player, bool aggressive) {
   NpcTaskAttackPlayer task;
   task.target = &player;
+  task.aggressive = aggressive;
   currentTask = task;
   broadcastActiveTask();
 }

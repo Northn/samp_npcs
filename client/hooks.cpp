@@ -133,6 +133,37 @@ void npcs_module::hooks::install() {
       utils::nop_range(0x46F188, 0x46F18A);
     }
   }
+
+  // Do not walk slowly to target within CTaskComplexKillPedOnFootMelee::CreateSubTask
+  utils::unprotect_and_run(0x626CDD, 10, [](auto ptr) {
+    static float move_state_radius = 0.02f;
+    *reinterpret_cast<float**>(ptr + 0x2) = &move_state_radius;
+  });
+
+  { // Make ped sprint if npc is aggressive in CTaskComplexKillPedOnFootMelee::CreateSubTask -> CTaskComplexSeekEntity constructor
+    static kthook::kthook_naked CTaskComplexKillPedOnFootMelee_CreateSubTask_CTaskComplexSeekEntity_constructor_after;
+    CTaskComplexKillPedOnFootMelee_CreateSubTask_CTaskComplexSeekEntity_constructor_after.set_dest(0x626D05);
+    CTaskComplexKillPedOnFootMelee_CreateSubTask_CTaskComplexSeekEntity_constructor_after.set_cb([](const auto &hook) {
+      // TODO: broken kthook address
+      //  CRASH ALERT: if this someonce begins crashing you should probably remove +8
+      auto true_esp = hook.get_context().esp + 0x8;
+
+      auto ped = *reinterpret_cast<CPed**>(true_esp + 0x3C);
+
+      auto task = hook.get_context().eax;
+      if (task != 0x0) {
+        if (auto npc_iter = find_npc_by_game_ped(ped); npc_iter != npcs.end() && npc_iter->second.is_aggressive_attack()) {
+          *reinterpret_cast<int *>(task + 0x44) = PEDMOVE_SPRINT;
+        }
+      }
+    });
+    CTaskComplexKillPedOnFootMelee_CreateSubTask_CTaskComplexSeekEntity_constructor_after.install();
+
+    // Decrease move state range when calling CTaskComplexGoToPointAndStandStill::SelectMoveState with m_moveState = PEDMOVE_SPRINT
+    utils::unprotect_and_run(0x6685BE, 10, [](auto ptr) {
+      *reinterpret_cast<float*>(ptr + 0x1) = 1.f;
+    });
+  }
 }
 
 void npcs_module::hooks::mainloop(const decltype(CTimer_Update_hook) &hook) {

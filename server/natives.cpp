@@ -145,8 +145,8 @@ SCRIPT_API(TaskNpcStandStill, bool(INpc &npc)) {
   return true;
 }
 
-SCRIPT_API(TaskNpcAttackPlayer, bool(INpc &npc, IPlayer &target)) {
-  npc.attackPlayer(target);
+SCRIPT_API(TaskNpcAttackPlayer, bool(INpc &npc, IPlayer &target, bool aggressive)) {
+  npc.attackPlayer(target, aggressive);
   return true;
 }
 

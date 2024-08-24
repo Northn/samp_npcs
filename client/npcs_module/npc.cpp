@@ -144,8 +144,9 @@ void npcs_module::npc::set_health(float health) {
   }
 }
 
-void npcs_module::npc::attack_player(uint16_t samp_player_id) {
+void npcs_module::npc::attack_player(uint16_t samp_player_id, bool aggressive) {
   if (!is_ped_valid() || is_dead() || utils::samp_get_player_health(samp_player_id) <= 0.f) {
+    aggressive_attack = aggressive;
     player_attack_to = samp_player_id; // will probably attack later
     return;
   }
@@ -153,6 +154,7 @@ void npcs_module::npc::attack_player(uint16_t samp_player_id) {
   clear_active_task();
 
   player_attack_to = samp_player_id; // set one more time
+  aggressive_attack = aggressive;
   if (const auto player_ped = utils::get_samp_player_ped_game_ptr(player_attack_to); player_ped != nullptr) {
     auto task = new CTaskComplexKillPedOnFoot(player_ped, -1, 0, 0, 20, 1);
     set_current_task(task);
@@ -188,7 +190,7 @@ void npcs_module::npc::update() {
   // TODO: NPC is attacking another player even if he's dead
   //  need to check remote player health
   if (should_attack_target() && !is_attacking_target()) {
-    attack_player(get_attack_target());
+    attack_player(get_attack_target(), aggressive_attack);
   } else if (should_follow_target() && !is_following_target()) {
     follow_player(get_follow_target());
   }
@@ -332,6 +334,10 @@ void npcs_module::npc::go_to_point(const CVector &point, npc_move_mode_t mode) {
 
 bool npcs_module::npc::is_stun_enabled() const {
   return stun_enabled;
+}
+
+bool npcs_module::npc::is_aggressive_attack() const {
+  return aggressive_attack;
 }
 
 CPed *npcs_module::npc::get_ped() const {
@@ -490,6 +496,7 @@ void npcs_module::npc::clear_active_task(bool immediately) {
 
   { // Reset tasks variables
     player_attack_to = kInvalidTargetId;
+    aggressive_attack = false;
     player_follow_to = kInvalidTargetId;
   }
 

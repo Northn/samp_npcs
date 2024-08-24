@@ -79,7 +79,7 @@ struct INpc : public IExtensible, public IEntity {
   virtual void goToPoint(const Vector3 &destination, NpcMoveMode mode) = 0;
 
   // Npc will attack specified player
-  virtual void attackPlayer(const IPlayer &player) = 0;
+  virtual void attackPlayer(const IPlayer &player, bool aggressive = false) = 0;
 
   // Npc will follow specified player
   virtual void followPlayer(const IPlayer &player) = 0;
@@ -120,7 +120,7 @@ public:
   void clearActiveTasks() override;
   void standStill() override;
   void goToPoint(const Vector3 &destination, NpcMoveMode mode) override;
-  void attackPlayer(const IPlayer &player) override;
+  void attackPlayer(const IPlayer &player, bool aggressive) override;
   void followPlayer(const IPlayer &player) override;
 
   // Inherited from IEntity -> IIDProvider

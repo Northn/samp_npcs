@@ -141,9 +141,14 @@ void npcs_module::process_rpc(RPCParameters *params) {
     switch (task_id) {
     case 1: { // attack player
       uint16_t target_player_id = 0xFFFF;
-      bs.Read(target_player_id);
+      uint8_t is_aggressive_ = 0;
 
-      npc.attack_player(target_player_id);
+      bs.Read(target_player_id);
+      bs.Read(is_aggressive_);
+
+      auto is_aggressive = is_aggressive_ != 0;
+
+      npc.attack_player(target_player_id, is_aggressive);
       break;
     }
     case 2: { // go to point

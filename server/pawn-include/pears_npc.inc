@@ -70,7 +70,7 @@ native bool:SetNpcWeaponShootingRate(NPC:npc, shootingrate);
 native bool:SetNpcWeaponSkill(NPC:npc, NPC_SKILL_TYPE:skill);
 
 native bool:TaskNpcStandStill(NPC:npc);
-native bool:TaskNpcAttackPlayer(NPC:npc, playerid);
+native bool:TaskNpcAttackPlayer(NPC:npc, playerid, bool:aggressive = false);
 native bool:TaskNpcGoToPoint(NPC:npc, Float:x, Float:y, Float:z, NPC_MOVE_MODE:mode = NPC_MOVE_MODE_WALK);
 native bool:TaskNpcFollowPlayer(NPC:npc, playerid);
 

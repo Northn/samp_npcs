@@ -15,6 +15,7 @@ class npc {
 
   uint16_t my_id = 0; // 0 is an invalid npc id
   uint16_t player_attack_to = kInvalidTargetId;
+  bool aggressive_attack = false;
   uint16_t player_follow_to = kInvalidTargetId;
 
   bool stun_enabled = true;
@@ -48,13 +49,14 @@ public:
   bool send_sync_if_required();
 
   // Tasks
-  void attack_player(uint16_t samp_player_id);
+  void attack_player(uint16_t samp_player_id, bool aggressive = false);
   void follow_player(uint16_t samp_player_id);
   void stand_still();
   void wander();
   void go_to_point(const CVector &point, npc_move_mode_t mode = npc_move_mode_t::kRun);
 
   bool is_stun_enabled() const;
+  bool is_aggressive_attack() const;
   CPed *get_ped() const;
 private:
   std::chrono::milliseconds get_sync_send_rate() const;
