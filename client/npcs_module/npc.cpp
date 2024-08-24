@@ -114,8 +114,6 @@ void npcs_module::npc::set_current_weapon(uint8_t weapon_id, uint32_t ammo, uint
   if (ammo_in_clip != 0xFFFF) {
     ped->m_aWeapons[weapon_info->m_nSlot].m_nAmmoInClip = ammo_in_clip;
   }
-
-  ped->SetWeaponSkill(weapon_type, 2); // eWeaponSkill::PRO
 }
 
 void npcs_module::npc::set_health(float health) {
