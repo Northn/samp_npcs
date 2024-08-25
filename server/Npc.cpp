@@ -232,7 +232,11 @@ bool Npc::updateFromSync(const NpcSyncPacket &syncPacket, IPlayer *sender) {
   const auto dist3D = syncPacket.Position - getPosition();
   const auto dist = glm::dot(dist3D, dist3D);
 
-  if (dist > 3.f) {
+  auto distSqr = [](const float value) {
+    return value * value;
+  };
+
+  if (dist > distSqr(3.f)) {
     const auto currentPos = getPosition();
     const auto newPos = syncPacket.Position;
 
@@ -241,7 +245,7 @@ bool Npc::updateFromSync(const NpcSyncPacket &syncPacket, IPlayer *sender) {
     const auto dist2D = newPos2D - currentPos2D;
     const auto dist2D_ = glm::dot(dist2D, dist2D);
 
-    if (currentPos.z < -60.f && newPos.z < -70.f && dist2D_ <= 3.f) {
+    if (currentPos.z < -60.f && newPos.z < -70.f && dist2D_ <= distSqr(3.f)) {
       // if we felt under the map
       // currentPos.z < -60.f -- if we're already below the ground for server
       // newPos.z < -70.f -- if client is still sending some position below the ground
@@ -253,14 +257,14 @@ bool Npc::updateFromSync(const NpcSyncPacket &syncPacket, IPlayer *sender) {
       // 2. new position sent by client: we're on the map as should be
 
       // dist_ = distance between current and new position in 2d
-      if (dist2D_ > 80.f) {
+      if (dist2D_ > distSqr(80.f)) {
         // our npc teleported to the ground by the game
         // but teleport happened too far away
         // maybe some cheat? some bug? not sure, anyway that's something illegal
         broadcastSync(); // resend the actual sync data
         return false;
       }
-    } else if (dist2D_ > 1.8f) {
+    } else if (dist2D_ > distSqr(1.8f)) {
 //      NpcComponent::instance().core->logLn(LogLevel::Message, "Ignored: %0.2f", dist2D_);
       // The overall this kind of anticheat should be done in a better way
       // We should check the distance difference within second-two-three
