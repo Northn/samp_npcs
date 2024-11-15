@@ -110,6 +110,7 @@ set(PluginSDK_gta3_GAME_INCDIR_NAME "game_III")
 set(PluginSDK_gta3_DEFINES
   PLUGIN_SGV_10EN
   GTA3
+  RW
   GTAGAME_NAME="3"
   GTAGAME_ABBR="3"
   GTAGAME_ABBRLOW="3"
@@ -126,6 +127,7 @@ set(PluginSDK_gtavc_GAME_INCDIR_NAME "game_vc")
 set(PluginSDK_gtavc_DEFINES
   PLUGIN_SGV_10EN
   GTAVC
+  RW
   GTAGAME_NAME="Vice City"
   GTAGAME_ABBR="VC"
   GTAGAME_ABBRLOW="vc"
@@ -142,6 +144,7 @@ set(PluginSDK_gtasa_GAME_INCDIR_NAME "game_sa")
 set(PluginSDK_gtasa_DEFINES
   PLUGIN_SGV_10US
   GTASA
+  RW
   GTAGAME_NAME="San Andreas"
   GTAGAME_ABBR="SA"
   GTAGAME_ABBRLOW="sa"
