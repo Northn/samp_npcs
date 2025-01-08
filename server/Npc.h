@@ -105,6 +105,13 @@ struct INpc : public IExtensible, public IEntity {
 
   /// Npc will play specified animation
   virtual void playAnimation(const AnimationData &animation) = 0;
+
+  /// Set the specified player as reliable one
+  /// nullptr = remove any previously placed as reliable player
+  virtual void setReliablePlayerForSync(IPlayer *player) = 0;
+
+  /// Get the previously installed as raliable player
+  virtual IPlayer *getReliablePlayerForSync() const = 0;
 };
 
 #include "NpcTask.hpp"
@@ -156,6 +163,8 @@ public:
   void attackNpc(const INpc &target, bool aggressive) override;
   void followPlayer(const IPlayer &player) override;
   void playAnimation(const AnimationData &animation) override;
+  void setReliablePlayerForSync(IPlayer *player) override;
+  IPlayer *getReliablePlayerForSync() const override;
 
   // Inherited from IEntity -> IIDProvider
   int getID() const override;
@@ -190,6 +199,8 @@ public:
 
   IVehicle* currentVehicle;
   int8_t currentVehicleSeat;
+
+  const IPlayer* manuallyInstalledReliablePlayer = nullptr;
 
   UniqueIDArray<IPlayer, PLAYER_POOL_SIZE> streamedFor_;
   UniqueIDArray<IPlayer, PLAYER_POOL_SIZE> verifiedSupportedPlayers_; // players who have sent npc sync once at least

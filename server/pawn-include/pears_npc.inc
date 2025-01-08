@@ -83,6 +83,9 @@ native bool:TaskNpcGoToPoint(NPC:npc, Float:x, Float:y, Float:z, NPC_MOVE_MODE:m
 native bool:TaskNpcFollowPlayer(NPC:npc, playerid);
 native bool:TaskNpcPlayAnimation(NPC:npc, const animationLibrary[], const animationName[], Float:delta, bool:loop, bool:lockX, bool:lockY, bool:freeze, time);
 
+native bool:SetNpcReliablePlayer(NPC:npc, playerid);
+native GetNpcReliablePlayer(NPC:npc);
+
 /*
 
       ,ad8888ba,               88  88  88                                   88

@@ -217,6 +217,18 @@ SCRIPT_API(TaskNpcPlayAnimation, bool(INpc &npc, const std::string& animlib, con
 
 ///////////////
 
+SCRIPT_API(SetNpcReliablePlayer, bool(INpc &npc, const IPlayer* player)) {
+  npc.SetReliablePlayerForSync(player);
+  return true;
+}
+
+SCRIPT_API_FAILRET(GetNpcReliablePlayer, INVALID_PLAYER_ID, int(INpc &npc)) {
+  auto reliable = npc.getReliablePlayerForSync();
+  return reliable != nullptr ? reliable->getID() : INVALID_PLAYER_ID;
+}
+
+///////////////
+
 // Npcs param lookup
 namespace pawn_natives {
 #define CUSTOM_POOL_PARAM(type)                             \

@@ -242,6 +242,14 @@ void Npc::followPlayer(const IPlayer &player) {
   broadcastActiveTask();
 }
 
+void Npc::setReliablePlayerForSync(IPlayer *player) {
+  manuallyInstalledReliablePlayer = player;
+}
+
+IPlayer *Npc::getReliablePlayerForSync() const {
+  return manuallyInstalledReliablePlayer;
+}
+
 void Npc::playAnimation(const AnimationData &animation) {
   if ((!validateAnimations_ || *validateAnimations_) && !animationLibraryValid(animation.lib, *allAnimationLibraries_))
   {
@@ -373,6 +381,9 @@ bool Npc::isPlayerReliableForSync(const IPlayer &player) const {
 //  else if (const auto task = std::get_if<NpcTaskAttackPlayer>(&currentTask); task != nullptr) {
 //    prioritizedPlayer = task->target;
 //  }
+  if (manuallyInstalledReliablePlayer != nullptr) {
+    prioritizedPlayer = manuallyInstalledReliablePlayer;
+  }
   if (prioritizedPlayer != nullptr
       && (NpcComponent::instance().isPlayerAfk(*prioritizedPlayer) || !isStreamedInForPlayer(*prioritizedPlayer) || !verifiedSupportedPlayers_.valid(prioritizedPlayer->getID()))
       ) {

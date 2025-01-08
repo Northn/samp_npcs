@@ -119,6 +119,10 @@ void NpcComponent::onPoolEntryDestroyed(IPlayer &player) {
     } else if (const auto task = std::get_if<NpcTaskFollowPlayer>(&npc_.currentTask); task != nullptr && task->target == &player) {
       npc->standStill();
     }
+
+    if (npc->getReliablePlayerForSync() == &player) {
+      npc->setReliablePlayerForSync(nullptr);
+    }
   }
 }
 
