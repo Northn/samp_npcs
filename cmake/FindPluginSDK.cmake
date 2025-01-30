@@ -136,8 +136,8 @@ set(PluginSDK_gtavc_DEFINES
 )
 
 # GTA: SA
-set(PluginSDK_gtasa_REL_LIB_NAMES "plugin_dll" "plugin_sa")
-set(PluginSDK_gtasa_DBG_LIB_NAMES "plugin_d_dll" "plugin_sa_d")
+set(PluginSDK_gtasa_REL_LIB_NAMES "plugin" "plugin_sa")
+set(PluginSDK_gtasa_DBG_LIB_NAMES "plugin_d" "plugin_sa_d")
 set(PluginSDK_gtasa_INC_NAMES "plugin_sa.h")
 set(PluginSDK_gtasa_INCDIR_NAME "plugin_sa")
 set(PluginSDK_gtasa_GAME_INCDIR_NAME "game_sa")
@@ -161,7 +161,8 @@ foreach(comp_name ${PluginSDK_FIND_COMPONENTS})
       NO_DEFAULT_PATH
     )
     if(${component}_INCLUDE_DIR)
-      set(${component}_INCLUDE_DIRS "${${component}_INCLUDE_DIR}" "${${component}_INCLUDE_DIR}/${${component}_GAME_INCDIR_NAME}")
+      set(${component}_INCLUDE_DIRS "${${component}_INCLUDE_DIR}" "${${component}_INCLUDE_DIR}/${${component}_GAME_INCDIR_NAME}" "${${component}_INCLUDE_DIR}/${${component}_GAME_INCDIR_NAME}/rw")
+
     endif()
 
     find_library(${component}_LIBRARY_RELEASE

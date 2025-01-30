@@ -103,7 +103,7 @@ void npcs_module::npc::set_current_weapon(uint8_t weapon_id, uint32_t ammo, uint
 
   auto weapon_type = static_cast<eWeaponType>(weapon_id);
   auto weapon_info = CWeaponInfo::GetWeaponInfo(weapon_type, 1);
-  auto weapon_model_id = weapon_info->m_nModelId1;
+  auto weapon_model_id = weapon_info->m_nModelId;
 
   if (weapon_model_id == -1 || !is_weapon_model(weapon_model_id)) {
     return;
